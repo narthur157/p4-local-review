@@ -1,0 +1,16 @@
+{
+  "name": "your-app",
+  "version": "0.1.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "diff2html": "^2.9.0",
+    "p4-oo": "^2.0.3",
+    "p4api": "^3.2.1"
+  },
+  "devDependencies": {
+    "electron": "^5.0.3"
+  }
+}

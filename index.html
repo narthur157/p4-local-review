@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Perforce local code review</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="diff2html.css">
+
+    <!-- Javascripts -->
+    <script type="text/javascript" src="diff2html.js"></script>
+    <style>
+      .show {
+        visibility: initial;
+      }
+
+      .hidden {
+        visibility: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="diff-box"></div>
+    <div id="changelists"></div>
+  </body>
+  <script>
+    
+    let ipcRenderer = require('electron').ipcRenderer;
+    ipcRenderer.on('store-data', (event, message) => {
+        console.log(message);
+        message.forEach(changelist => {
+        let container = document.getElementById("changelists");
+        let changelistContainer = document.createElement('div');
+        let node = document.createElement("p");
+        node.appendChild(document.createTextNode(changelist.change + " " + changelist.desc));
+        changelistContainer.appendChild(node);
+        changelistContainer.id = 'changelist-' + changelist.change;
+        container.appendChild(changelistContainer);
+        node.addEventListener('click', () => {
+            console.log(changelist);
+            ipcRenderer.send("get-diff", changelist.change);
+        });
+      });
+    })
+
+    ipcRenderer.on('send-diff', (event, {changeNumber, diffs}) => {
+      console.log(diffs)
+      let diffsBox = document.createElement('div');
+      let hideEl = document.createElement('button');
+      hideEl.innerHTML = "Toggle diff"
+      hideEl.addEventListener('click', () => { 
+        if (window.getComputedStyle(diffsBox).display === 'block') {
+          diffsBox.style.display = 'none';
+        } else {
+          diffsBox.style.display = 'block';
+        }
+      });
+      document.getElementById("changelist-" + changeNumber).appendChild(hideEl);
+      document.getElementById("changelist-" + changeNumber).appendChild(diffsBox);
+      
+      diffs.forEach(file => {
+        let newDiffEl = document.createElement("div");
+        
+        var diffHtml = Diff2Html.getPrettyHtml(
+          file,
+          {inputFormat: 'diff', showFiles: true, matching: 'lines', outputFormat: 'unified'}
+        );
+
+        newDiffEl.innerHTML = diffHtml;
+        diffsBox.appendChild(newDiffEl);
+      })
+    });
+
+  </script>
+</html>
