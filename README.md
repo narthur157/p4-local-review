@@ -17,4 +17,6 @@ To set, use `p4 set [variable] [value]`. Port actually is `ipaddress:port`, whic
 
 Once started, click any of the changelist items to get an expanded diff view.
 
-Note: I didn't write diff2html. I could have bower installed it, but I wasn't about to use webpack or anything like that and I couldn't be bothered so it's just there
+Disclaimers: I didn't write diff2html. I could have bower installed it, but I wasn't about to use webpack or anything like that and I couldn't be bothered so it's just there. 
+
+Also I hacked this together in a few hours and put 0 effort in to design, using Electron well, using any sort of frontend framework, etc.
