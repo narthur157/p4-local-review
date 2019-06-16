@@ -20,3 +20,9 @@ Once started, click any of the changelist items to get an expanded diff view.
 Disclaimers: I didn't write diff2html. I could have bower installed it, but I wasn't about to use webpack or anything like that and I couldn't be bothered so it's just there. 
 
 Also I hacked this together in a few hours and put 0 effort in to design, using Electron well, using any sort of frontend framework, etc.
+
+TODO:
+
+Switch to something besides Electron, since Electron builds are ~100MB minimum. Couldn't get the electron build working right away anyway..
+Add some styling (margins, hover effect on changelists, make the list prettier, give some more stats about the changelist maybe in table format)
+Clean up the code (prevent double open), maybe introduce a framework
